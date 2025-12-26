@@ -80,10 +80,13 @@ def init_db(okpd_columns):
     # Создание строки с определениями колонок для SQL-запроса
     col_defs = ", ".join(f'"{name}" REAL' for name, _ in okpd_columns)
 
-    cur.execute(f"""  # Создание таблицы, если она не существует
+    # Создание таблицы, если она не существует
+    # Колонка с датой (первичный ключ)
+    # Динамически созданные колонки для каждого названия ОКПД
+    cur.execute(f""" 
         CREATE TABLE IF NOT EXISTS DATA (
-            DATE TEXT PRIMARY KEY,  # Колонка с датой (первичный ключ)
-            {col_defs}  # Динамически созданные колонки для каждого названия ОКПД
+            DATE TEXT PRIMARY KEY,
+            {col_defs} 
         )
     """)
 
